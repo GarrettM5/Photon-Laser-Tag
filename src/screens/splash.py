@@ -3,7 +3,7 @@ from PIL import Image, ImageTk
 import os
 
 class SplashScreen(tk.Frame):
-    def __init__(self, parent, controller):
+    def __init__(self, parent, controller, db, udp):
         tk.Frame.__init__(self, parent)
         self.controller = controller
         self.configure(bg="black")
