@@ -22,11 +22,15 @@ class PhotonApp(tk.Tk):
         self.db = DatabaseManager()
         self.udp = UDPServer()
 
+        # storage for game data
+        self.red_team_data = []
+        self.green_team_data = []
+
         # creating container to hold frames
         container = tk.Frame(self)
-        container.pack(side="top", fill="both", expand=True)
-        container.grid_rowconfigure(0, weight=1)
-        container.grid_columnconfigure(0, weight=1)
+        container.pack(side = "top", fill = "both", expand = True)
+        container.grid_rowconfigure(0, weight = 1)
+        container.grid_columnconfigure(0, weight = 1)
 
         # initializing all frames
         self.frames = {}
