@@ -11,9 +11,9 @@ class DatabaseManager:
         try:
             self.conn = psycopg2.connect(
                 dbname="photon",
-                user="student",     
-                password="student", 
-                host="127.0.0.1"
+                # user="student",     
+                # password="student", 
+                # host="127.0.0.1"
             )
             print("Database Connected Successfully")
         except OperationalError as e:
