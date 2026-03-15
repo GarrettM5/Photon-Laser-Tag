@@ -7,7 +7,7 @@ class PlayerEntryScreen(tk.Frame):
         self.controller = controller
         self.db = db
         self.udp = udp
-        self.configure(bg = "#E0E0E0")
+        self.configure(bg = "white")
 
         # creates menu bar at top of window
         self.menubar = tk.Menu(parent)
@@ -16,10 +16,10 @@ class PlayerEntryScreen(tk.Frame):
         self.menubar.add_cascade(label = "Settings", menu = settings_menu)
 
         # creates header label
-        tk.Label(self, text = "EDIT CURRENT GAME", font = ("Helvetica", 20, "bold"), fg = "black", bg = "#E0E0E0").pack(pady = 10)
+        tk.Label(self, text = "EDIT CURRENT GAME", font = ("Helvetica", 20, "bold"), fg = "black", bg = "white").pack(pady = 10)
 
         # creates main container for team tables
-        center_stage = tk.Frame(self, bg = "#E0E0E0")
+        center_stage = tk.Frame(self, bg = "white")
         center_stage.pack(expand = True, fill = "both", padx = 20)
 
         # creates red team frame
@@ -35,7 +35,7 @@ class PlayerEntryScreen(tk.Frame):
         self.green_entries = self.create_team_grid(self.green_frame)
 
         # creates footer with buttons
-        footer_frame = tk.Frame(self, bg = "#E0E0E0")
+        footer_frame = tk.Frame(self, bg = "white")
         footer_frame.pack(side = "bottom", fill = "x", pady = 10)
         self.clear_button = tk.Button(footer_frame, text = "F12: Clear Players", font = ("Helvetica", 10, "bold"), 
                                       bg = "#f44336", fg = "black", padx = 15, pady = 8, 
@@ -79,12 +79,10 @@ class PlayerEntryScreen(tk.Frame):
             eq_entry = tk.Entry(container, font = ("Helvetica", 10), justify = "center")
             eq_entry.grid(row = i + 1, column = 2, padx = 4, pady = 2, sticky = "ew")
 
-            # triggers logic when user leaves user ID box or hits enter
-            id_entry.bind("<FocusOut>", lambda e, id_entry = id_entry, name_entry = name_entry, eq_entry = eq_entry: self.on_id_entered(id_entry, name_entry, eq_entry))
+            # triggers codename search function when user hits enter on id box
             id_entry.bind("<Return>", lambda e, id_entry = id_entry, name_entry = name_entry, eq_entry = eq_entry: self.on_id_entered(id_entry, name_entry, eq_entry))
             
-            # passes all fields to function after equipment id is entered
-            eq_entry.bind("<FocusOut>", lambda e, id_entry = id_entry, name_entry = name_entry, eq_entry = eq_entry: self.on_eq_entered(id_entry, name_entry, eq_entry))
+            # triggers equipment code broadcast when user hits enter on eq box
             eq_entry.bind("<Return>", lambda e, id_entry = id_entry, name_entry = name_entry, eq_entry = eq_entry: self.on_eq_entered(id_entry, name_entry, eq_entry))
 
             entries.append({"id": id_entry, "name": name_entry, "eq": eq_entry})
@@ -95,8 +93,8 @@ class PlayerEntryScreen(tk.Frame):
         # get user id
         user_id = id_entry.get().strip()
         if not user_id.isdigit():
-            print("User ID must be a number")
-            id_entry.delete(0, tk.END)
+            if user_id:
+                id_entry.delete(0, tk.END)
             return
         try:
             # check if player exists in db
@@ -123,8 +121,8 @@ class PlayerEntryScreen(tk.Frame):
         eq_id = eq_entry.get().strip()
         
         if not eq_id.isdigit():
-            print("Equipment ID must be a number")
-            eq_entry.delete(0, tk.END)
+            if eq_id:
+                eq_entry.delete(0, tk.END)
             return
 
         # save player to db
@@ -156,7 +154,23 @@ class PlayerEntryScreen(tk.Frame):
             row["eq"].delete(0, tk.END)
 
     def start_game(self, event = None):
-        print("Starting Game...")
+        # gathers player data from entries and sends to countdown screen
+        red_team_data = []
+        green_team_data = []
+
+        for row in self.red_entries:
+            player_id = row['id'].get().strip()
+            player_name = row['name'].get().strip()
+            if player_id and player_name:
+                red_team_data.append({'id': player_id, 'name': player_name})
+
+        for row in self.green_entries:
+            player_id = row['id'].get().strip()
+            player_name = row['name'].get().strip()
+            if player_id and player_name:
+                green_team_data.append({'id': player_id, 'name': player_name})
+
+        self.controller.go_to_countdown(red_team_data, green_team_data)
 
     def show_menubar(self):
         self.controller.config(menu = self.menubar)
