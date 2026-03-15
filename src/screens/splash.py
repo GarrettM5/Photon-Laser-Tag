@@ -23,7 +23,6 @@ class SplashScreen(tk.Frame):
                 img_label.pack(expand = True, fill = "both")
             except Exception as e:
                 print(f"Error loading image: {e}")
-                self.show_text_fallback()
         else:
             print("Logo image was not found")
         # after 3 seconds, go to player entry screen
