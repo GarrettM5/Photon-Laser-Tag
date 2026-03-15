@@ -53,7 +53,7 @@ class PhotonApp(tk.Tk):
         else:
             self.config(menu = "")
 
-     def go_to_countdown(self, red_players, green_players):
+    def go_to_countdown(self, red_players, green_players):
         # stores data and switches to countdown
         self.red_team_data = red_players
         self.green_team_data = green_players
