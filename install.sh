@@ -12,8 +12,9 @@ sudo apt-get install -y python3 python3-pip python3-tk libpq-dev
 # Install Python Libraries
 # psycopg2-binary: for PostgreSQL
 # Pillow: for handling the jpg splash screen image
+# pygame: for audio playback and timer functionality
 echo "--- Installing Python Libraries ---"
-pip3 install psycopg2-binary Pillow
+pip3 install psycopg2-binary Pillow pygame --break-system-packages
 
 echo "--- Installation Complete ---"
 echo "To run the game: python3 src/main.py"
