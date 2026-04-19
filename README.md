@@ -37,7 +37,7 @@ When entering players on the Entry Screen, please follow this workflow to ensure
 - **OS:** Debian Linux (Virtual Machine recommended)
 - **Python:** 3.x
 - **Database:** PostgreSQL (`photon` database, `players` table)
-- **Python Libraries:** `psycopg2-binary`, `tkinter`, `Pillow`
+- **Python Libraries:** `psycopg2-binary`, `tkinter`, `Pillow`, `pygame`
 
 ## Installation
 You may either download the project as a ZIP or clone the repository to your local machine:
@@ -52,7 +52,7 @@ Run the installer:
 ```bash
 $ ./install.sh
 ```
-*Note: The installer sets up Python 3, Pip, Tkinter, psycopg2-binary, and Pillow automatically.*
+*Note: The installer sets up Python 3, Pip, Tkinter, psycopg2-binary, Pillow, and pygame automatically.*
 
 ## How to Run
 To fully test the game with simulated hardware traffic, you will need to open **two** separate terminal windows inside the `Photon-Laser-Tag` root folder.
